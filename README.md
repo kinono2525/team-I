@@ -27,4 +27,5 @@ composer install
 ---
 
 ## 6. 動作確認
-・
+- Laravel アプリ：ブラウザで http://localhost
+- phpMyAdmin：ブラウザで http://localhost:8080
