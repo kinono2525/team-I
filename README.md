@@ -20,16 +20,21 @@ composer install
 
 ---
 
-## 5. Laravel アプリキーの生成
-./vendor/bin/sail artisan key:generate
-
----
-
-## 6. Docker コンテナの起動
+## 5. Docker コンテナの起動
 ./vendor/bin/sail up -d
 
 ---
 
-## 7. 動作確認
+## 6. Laravel アプリキーの生成
+./vendor/bin/sail artisan key:generate
+
+---
+
+## 7. マイグレートの実行
+./vendor/bin/sail artisan migrate
+
+---
+
+## 8. 動作確認
 - Laravel アプリ：ブラウザで http://localhost
 - phpMyAdmin：ブラウザで http://localhost:8080
