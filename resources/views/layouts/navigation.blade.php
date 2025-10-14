@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('attendance.create')" :active="request()->routeIs('attendance.create')">
                         {{ __('出席登録') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('students.search')" :active="request()->routeIs('students.search')">
+                        {{ __('テスト結果入力') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -75,6 +78,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('attendance.create')" :active="request()->routeIs('attendance.create')">
                 {{ __('出席登録') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('students.search')" :active="request()->routeIs('students.search')">
+                {{ __('テスト結果入力') }}
             </x-responsive-nav-link>
         </div>
 
