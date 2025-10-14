@@ -19,6 +19,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance', function () {
         return view('attendance.create');
     })->name('attendance.create');
+
+    Route::get('/students/search', function () {
+        return view('students.search');
+    })->name('students.search');
 });
 
 require __DIR__.'/auth.php';
