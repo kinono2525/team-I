@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/students/search', function () {
         return view('students.search');
     })->name('students.search');
+
+    Route::prefix('students/{student}')->group(function () {
+        Route::resource('tests', TestController::class);
+    });
 });
+
 
 require __DIR__.'/auth.php';
