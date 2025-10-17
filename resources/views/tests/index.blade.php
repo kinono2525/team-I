@@ -50,7 +50,14 @@
                                                         $test = $tests->where('test_name', $test_type)->skip($i - 1)->first();
                                                     @endphp
                                                     <td class="px-6 py-4 whitespace-no-wrap text-sm whitespace-nowrap">
-                                                        <div class="text-gray-900 dark:text-gray-100">{{ $test ? $test->score : '' }}</div>
+                                                        @if ($test)
+                                                            <a href="{{ route('tests.edit', ['student' => $student->id, 'test' => $test->id]) }}"
+                                                            class="text-gray-900 hover:underline">
+                                                                {{ $test->score }}
+                                                            </a>
+                                                        @else
+                                                            <div class="text-gray-400"></div>
+                                                        @endif
                                                     </td>
                                                 @endfor
                                             </tr>

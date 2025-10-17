@@ -14,11 +14,11 @@
                     <form method="POST" action="{{ route('tests.store', ['student' => $student->id]) }}">
                         @csrf
                         <input type="hidden" name="test_name" value="{{ $testType }}">
-                        <label class='mr-3'>点数</label>
-                        <input type="number" name="score" required>
                         <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                             登録
                         </button>
+                        <label class='mr-3 ml-6'>点数</label>
+                        <input type="number" name="score" required>
                     </form>
                 </div>
             </div>

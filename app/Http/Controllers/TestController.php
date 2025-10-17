@@ -69,24 +69,62 @@ class TestController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Test $test)
+    public function edit(Student $student, Test $test)
     {
-        //
+        //student_idとtest_typeに基づいて連番を取得
+        $tests = Test::where('student_id', $student->id)
+             ->where('test_name', $test->test_name)
+             ->orderBy('id')
+             ->get();
+
+        //indexOf()相当の処理
+        $index = $tests->search(function ($t) use ($test) {
+            return $t->id === $test->id;
+        }) + 1;
+
+        $latestTest = $tests->last();
+
+        return view('tests.edit', compact('student', 'test', 'index', 'latestTest'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Test $test)
+    public function update(Student $student, Request $request, Test $test)
     {
-        //
+        //バリデーション
+        $request->validate([
+            'score' => 'required|integer|min:0|max:100',
+        ]);
+        //データの更新
+        $test->update($request->only('score'));
+
+        return redirect()
+            ->route('tests.index', ['student' => $student->id])
+            ->with('success', 'テスト記録を更新しました。');
     }
 
     /**
      * Remove the specified resource from storage.
+     * 最新テストのみ削除可能
      */
-    public function destroy(Test $test)
+    public function destroy(Student $student, Test $test)
     {
         //
+        $latestTest = Test::where('student_id', $student->id)
+            ->where('test_name', $test->test_name)
+            ->orderByDesc('id')
+            ->first();
+        
+        if ($test->id !== $latestTest->id) {
+            return redirect()
+                ->route('tests.index', ['student' => $student->id])
+                ->with('error', '最新のテスト記録のみ削除可能です。');
+        }
+
+        $test->delete();
+        return redirect()
+            ->route('tests.index', ['student' => $student->id])
+            ->with('success', 'テスト記録を削除しました。');
     }
 }
