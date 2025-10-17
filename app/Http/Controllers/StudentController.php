@@ -62,4 +62,29 @@ class StudentController extends Controller
     {
         //
     }
+
+    /**
+     * Search for students based on criteria.
+     */
+    public function search(Request $request)
+    {
+        $query = Student::query();
+
+        if ($request->filled('name')) {
+            $query->where('name_kanji', 'like', '%' . $request->input('name') . '%');
+        }
+        if ($request->filled('grade')) {
+            $query->where('grade', $request->input('grade'));  
+        }
+        if ($request->filled('school')) {
+            $query->where('school', 'like', '%' . $request->input('school') . '%');
+        } 
+        
+        $students = $query->get();
+
+        return view('students.search', [
+            'students' => $students,
+            'filters' => $request->only(['name', 'grade', 'school']),
+        ]);
+    }
 }
