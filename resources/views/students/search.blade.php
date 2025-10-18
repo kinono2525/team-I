@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('生徒情報検索') }}
+            {{ __('生徒選択') }}
         </h2>
     </x-slot>
 
@@ -86,6 +86,23 @@
                                                         {{ __('テスト結果入力') }}
                                                     </x-primary-button>
                                                 </a>
+                                                @if ($student->attendances()->where('date', now()->toDateString())->doesntExist())
+                                                    <a href="{{ route('attendances.create', ['student' => $student->id]) }}" class="ml-2">
+                                                        <x-primary-button>
+                                                            {{ __('出席登録') }}
+                                                        </x-primary-button>
+                                                    </a>
+                                                @else
+                                                    @php
+                                                        $todayAttendance = $student->attendances()
+                                                            ->where('date', now()->toDateString())
+                                                            ->first();
+                                                    @endphp
+
+                                                    <span class="ml-2 text-gray-500 dark:text-gray-400 text-center">
+                                                        {{ $todayAttendance?->status ?? '未記録' }}
+                                                    </span>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
