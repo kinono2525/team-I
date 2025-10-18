@@ -38,8 +38,8 @@
                 </tbody>
             </table>
             <div class="mt-4 flex justify-end space-x-4">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">保存</button>
-                <a href="{{ route('wrong_questions.pdf') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">テスト出力</a>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">保存</button>
+                <button type="button" onclick="window.location='{{ route('wrong_questions.pdf') }}'" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 inline-block no-underline">テスト出力</button>
             </div>
         </form>
     </div>
