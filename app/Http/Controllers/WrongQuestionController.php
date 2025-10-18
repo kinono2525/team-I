@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\WrongQuestion;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class WrongQuestionController extends Controller{
 
@@ -37,7 +39,7 @@ class WrongQuestionController extends Controller{
         $pdf2 = Pdf::loadView('pdf.answer', compact('questions'));
         $zip = new \ZipArchive();
         $zipPath = storage_path('app/public/test.zip');
-        if($zip->open($zipPath, \ZipArchive::OVERWRITE)){
+        if($zip->open($zipPath,\ZipArchive::CREATE | \ZipArchive::OVERWRITE)){
             $zip->addFromString('test.pdf', $pdf1->output());
             $zip->addFromString('answer.pdf', $pdf2->output());
             $zip->close();
