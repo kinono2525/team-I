@@ -43,6 +43,7 @@ class WrongQuestionController extends Controller{
             $zip->addFromString('test.pdf', $pdf1->output());
             $zip->addFromString('answer.pdf', $pdf2->output());
             $zip->close();
+            WrongQuestion::truncate();
             return response()->download($zipPath, 'test.zip')->deleteFileAfterSend(true);
         }
     }
