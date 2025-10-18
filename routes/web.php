@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
     })->name('attendance.create');
 
     Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
-
+    Route::resource('students', StudentController::class);
     Route::prefix('students/{student}')->group(function () {
         Route::resource('tests', TestController::class);
     });
