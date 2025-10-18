@@ -21,6 +21,7 @@ class StudentController extends Controller
     public function create()
     {
         //
+        return view('students.create');
     }
 
     /**
@@ -29,6 +30,17 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'name_kanji' => 'required|string|max:255',
+            'name_kana' => 'required|string|max:255',
+            'gender' => 'required|string|max:10',
+            'grade' => 'required|integer|min:1|max:12',
+            'school' => 'required|string|max:255',
+        ]);
+
+        Student::create($validated);
+
+        return redirect()->route('students.create')->with('success', '生徒情報を追加しました。');
     }
 
     /**
@@ -79,12 +91,11 @@ class StudentController extends Controller
         if ($request->filled('school')) {
             $query->where('school', 'like', '%' . $request->input('school') . '%');
         } 
-        
+
         $students = $query->get();
 
         return view('students.search', [
             'students' => $students,
-            'filters' => $request->only(['name', 'grade', 'school']),
         ]);
     }
 }

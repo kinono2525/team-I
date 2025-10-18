@@ -14,20 +14,20 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <x-input-label for="name" :value="__('氏名')" />
-                                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" />
+                                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" value="{{ request('name') }}" />
                             </div>
                             <div>
                                 <x-input-label for="grade" :value="__('学年')" />
                                 <select id="grade" name="grade" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                                     <option value="">選択してください</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
+                                    <option value="1" {{ request('grade') == '1' ? 'selected' : '' }}>1</option>
+                                    <option value="2" {{ request('grade') == '2' ? 'selected' : '' }}>2</option>
+                                    <option value="3" {{ request('grade') == '3' ? 'selected' : '' }}>3</option>
                                 </select>
                             </div>
                             <div>
                                 <x-input-label for="school" :value="__('学校名')" />
-                                <x-text-input id="school" name="school" type="text" class="mt-1 block w-full" />
+                                <x-text-input id="school" name="school" type="text" class="mt-1 block w-full" value="{{ request('school') }}" />
                             </div>
                         </div>
                         <div class="mt-4">
@@ -59,8 +59,8 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700">
-                                    <tr>
-                                        @foreach ($students as $student)
+                                    @foreach ($students as $student)
+                                        <tr>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm">
                                                 <div class="text-gray-900 dark:text-gray-100">
                                                     {{ $student->id }}
@@ -87,8 +87,8 @@
                                                     </x-primary-button>
                                                 </a>
                                             </td>
-                                        @endforeach
-                                    </tr>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

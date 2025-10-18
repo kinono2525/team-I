@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'create'])->name('attendance.create');
     Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
     Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
-
+    Route::resource('students', StudentController::class);
     Route::prefix('students/{student}')->group(function () {
         Route::resource('tests', TestController::class);
     });
