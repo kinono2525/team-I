@@ -5,24 +5,53 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, Student $student)
     {
-        //
+        $now = now();
+        //月と前半・後半の選択を取得
+        $month = $request->input('month', $now->format('Y-m'));
+        $half = $request->input('half');
+        if (!$half) {
+            //今日の日付に基づいて前半・後半を決定
+            $half = ($now->day <= 15) ? 1 : 2;
+        }
+
+        //月の開始日と終了日を取得
+        $startDate = Carbon::parse("{$month}-01");
+        $endDate = (clone $startDate)->endOfMonth();
+
+        //前半・後半に応じて日付範囲を設定
+        if ($half == 1) {
+            $endDate = $startDate->copy()->addDays(14); // 1日〜15日
+        } else {
+            $startDate = $startDate->copy()->addDays(15); // 16日〜月末
+        }
+
+        //指定された月と範囲の出席データを取得
+        $attendances = $student->attendances()
+            ->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()])
+            ->get()
+            ->keyBy('date');
+
+        return view('attendances.index', compact('student', 'month', 'half', 'attendances', 'startDate', 'endDate'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Student $student)
+    public function create(Request $request, Student $student)
     {
         //
-        return view('attendances.create', compact('student'));
+        $date = $request->input('date', now()->toDateString());
+
+        return view('attendances.create', compact('student', 'date'));
     }
 
     /**
@@ -47,25 +76,38 @@ class AttendanceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Attendance $attendance)
+    public function show(Student $student, Attendance $attendance)
     {
         //
+        // return view('attendances.show', compact('attendance', 'student'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Attendance $attendance)
+    public function edit(Student $student, Attendance $attendance)
     {
         //
+        return view('attendances.edit', compact('attendance', 'student'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Attendance $attendance)
+    public function update(Request $request, Student $student, Attendance $attendance)
     {
         //
+        $request->validate([
+            'date' => 'required|date',
+            'status' => 'required|string|max:50',
+            'note' => 'nullable|string|max:255',
+        ]);
+
+        $attendance->update($request->only('date', 'status', 'note'));
+
+        return redirect()
+            ->route('attendances.index', ['student' => $student->id])
+            ->with('success', '出席情報を更新しました。');
     }
 
     /**

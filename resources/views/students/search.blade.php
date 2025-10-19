@@ -86,22 +86,28 @@
                                                         {{ __('テスト結果入力') }}
                                                     </x-primary-button>
                                                 </a>
-                                                @if ($student->attendances()->where('date', now()->toDateString())->doesntExist())
-                                                    <a href="{{ route('attendances.create', ['student' => $student->id]) }}" class="ml-2">
+
+                                                <a href="{{ route('attendances.index', ['student' => $student->id]) }}" class="ml-4">
+                                                    <x-primary-button>
+                                                        {{ __('出席状況確認') }}
+                                                    </x-primary-button>
+                                                </a>
+                                                
+                                                @php
+                                                    $todayAttendance = $student->attendances()
+                                                        ->where('date', now()->toDateString())
+                                                        ->first();
+                                                @endphp
+                                                @if ($todayAttendance)
+                                                    <span class="px-2 py-1 ml-2 rounded {{ $todayAttendance->status == '出席' ? 'bg-green-200 text-green-800' : ($todayAttendance->status == '遅刻' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800') }}">
+                                                        {{ $todayAttendance->status }}
+                                                    </span>
+                                                @else
+                                                    <a href="{{ route('attendances.create', ['student' => $student->id, 'date' => now()->toDateString()]) }}" class="ml-2">
                                                         <x-primary-button>
                                                             {{ __('出席登録') }}
                                                         </x-primary-button>
                                                     </a>
-                                                @else
-                                                    @php
-                                                        $todayAttendance = $student->attendances()
-                                                            ->where('date', now()->toDateString())
-                                                            ->first();
-                                                    @endphp
-
-                                                    <span class="ml-2 text-gray-500 dark:text-gray-400 text-center">
-                                                        {{ $todayAttendance?->status ?? '未記録' }}
-                                                    </span>
                                                 @endif
                                             </td>
                                         </tr>

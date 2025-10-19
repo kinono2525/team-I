@@ -1,102 +1,106 @@
-<!-- <x-app-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('出席状況') }}
+            {{ __('出席状況確認') }}
         </h2>
     </x-slot>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    生徒検索フォーム
-                    <form method="GET" action="{{ route('attendances.search') }}" class="mb-6">
-                        @csrf
-                        <x-primary-button type="submit">{{ __('出席登録へ') }}</x-primary-button>
-                    </form>
-                    出席状況テーブル
-                    <div class="mt-6">
-                        @if ($attendances->count() > 0)
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                <thead>
-                                    <tr>
-                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
-                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">生徒ID</span>
-                                        </th>
-                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
-                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">氏名</span>
-                                        </th>
-                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
-                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">出席状況</span>
-                                        </th>
-                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
-                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">備考</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700">
-                                    @foreach ($attendances as $attendance)
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-no-wrap text-sm whitespace-nowrap">
-                                                <span class="text-gray-900 dark:text-gray-100">{{ $attendance->student_id }}</span>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap text-sm whitespace-nowrap">
-                                                <span class="text-gray-900 dark:text-gray-100">{{ $attendance->student->name_kanji }}</span>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap text-sm whitespace-nowrap">
-                                                <span class="text-gray-900 dark:text-gray-100">{{ $attendance->status }}</span>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap text-sm whitespace-nowrap">
-                                                <span class="text-gray-900 dark:text-gray-100">{{ $attendance->note }}</span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @else
-                            <p class="text-gray-500">{{ __('出席情報が見つかりません。') }}</p>
-                        @endif
+                    <h3 class="text-lg font-medium mb-4">{{ $student->name_kanji }} さんの出席一覧</h3>
 
-                        出席登録がまだの分
-                        <div class="mt-6">
-                            @foreach ($attendances as $attendance)
-                                @if ($attendance == null)
-                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                        <thead>
-                                            <tr>
-                                                <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
-                                                    <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">生徒ID</span>
-                                                </th>
-                                                <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
-                                                    <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">氏名</span>
-                                                </th>
-                                                <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
-                                                    <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">出席登録</span>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700">
-                                            <tr>
-                                                <td class="px-6 py-4 whitespace-no-wrap text-sm whitespace-nowrap">
-                                                    <span class="text-gray-900 dark:text-gray-100">{{ $attendance->student_id }}</span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-no-wrap text-sm whitespace-nowrap">
-                                                    <span class="text-gray-900 dark:text-gray-100">{{ $attendance->student->name_kanji }}</span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-no-wrap text-sm whitespace-nowrap">
-                                                    <a href="{{ route('attendances.create', ['student' => $attendance->student_id]) }}"
-                                                        class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-                                                        {{ __('出席登録') }}
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>                                    
-                                @endif
-                            @endforeach
+                    <!-- 月選択 + 前半後半切り替え -->
+                    <form method="GET" action="{{ route('attendances.index', ['student' => $student->id]) }}" class="mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div>
+                                <x-input-label for="month" :value="__('月選択')" />
+                                <x-text-input id="month" name="month" type="month" class="mt-1 block w-full" value="{{ request('month', now()->format('Y-m')) }}" />
+                            </div>
+                            <div>
+                                <x-input-label for="half" :value="__('前半・後半')" />
+                                <select id="half" name="half" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                                    <option value="1" {{ request('half', 1) == 1 ? 'selected' : '' }}>月前半 (1日〜15日)</option>
+                                    <option value="2" {{ request('half') == 2 ? 'selected' : '' }}>月後半 (16日〜月末)</option>
+                                </select>
+                            </div>
+                            <div class="self-end">
+                                <x-primary-button>{{ __('選択') }}</x-primary-button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
+                    <!-- 出席一覧テーブル -->
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
+                                    <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">日付</span>
+                                </th>
+                                <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
+                                    <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">出席状況</span>
+                                </th>
+                                <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
+                                    <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">備考</span>
+                                </th>
+                                <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
+                                    <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">編集</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700">
+                            @php
+                                $current = $startDate->copy();
+                            @endphp
+
+                            @while($current <= $endDate)
+                                @php
+                                    $attendance = $attendances->get($current->toDateString());
+                                @endphp
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {{ $current->format('Y-m-d (D)') }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if ($attendance)
+                                            <span class="px-2 py-1 rounded {{ $attendance->status == '出席' ? 'bg-green-200 text-green-800' : ($attendance->status == '遅刻' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800') }}">
+                                                {{ $attendance->status }}
+                                            </span>
+                                        @else
+                                            <span class="text-gray-500">未登録</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {{ $attendance->note ?? 'ー' }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if ($current->lte(now()))
+                                            @if ($attendance)
+                                                <a href="{{ route('attendances.edit', ['student' => $student->id, 'attendance' => $attendance->id]) }}">
+                                                    <x-primary-button class="bg-blue-500 hover:bg-blue-700">
+                                                        編集
+                                                    </x-primary-button>
+                                                </a>
+                                            @else
+                                                <a href="{{ route('attendances.create', ['student' => $student->id, 'date' => $current->toDateString()]) }}">
+                                                    <x-primary-button class="bg-green-500 hover:bg-green-600">
+                                                        登録
+                                                    </x-primary-button>
+                                                </a>
+                                            @endif
+                                        @else
+                                            <span class="text-gray-400"></span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @php
+                                    $current->addDay();
+                                @endphp
+                            @endwhile
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout> -->
+</x-app-layout>

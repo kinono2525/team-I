@@ -16,7 +16,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('students.search')" :active="request()->routeIs('students.search')">
-                        {{ __('テスト結果入力') }}
+                        {{ __('生徒選択') }}
                     </x-nav-link>
                     <x-nav-link :href="route('students.create')" :active="request()->routeIs('students.create')">
                         {{ __('生徒情報登録') }}
@@ -77,7 +77,7 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('students.search')" :active="request()->routeIs('students.search')">
-                {{ __('テスト結果入力') }}
+                {{ __('生徒選択') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('students.create')" :active="request()->routeIs('students.create')">
                 {{ __('生徒情報登録') }}
