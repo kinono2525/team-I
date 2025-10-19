@@ -56,6 +56,12 @@
                                         <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
                                             <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">操作</span>
                                         </th>
+                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
+                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">テスト関連</span>
+                                        </th>
+                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
+                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">出席関連</span>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700">
@@ -81,13 +87,21 @@
                                                     {{ $student->grade }}
                                                 </div>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm">
-                                                <a href="{{ route('tests.index', ['student' => $student->id]) }}">
+                                                <a href="{{ route('students.edit', ['student' => $student->id]) }}">
                                                     <x-primary-button>
-                                                        {{ __('テスト結果入力') }}
+                                                        {{ __('生徒情報編集') }}
                                                     </x-primary-button>
                                                 </a>
-
-                                                <a href="{{ route('attendances.index', ['student' => $student->id]) }}" class="ml-4">
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-no-wrap text-sm">
+                                                <a href="{{ route('tests.index', ['student' => $student->id]) }}">
+                                                    <x-primary-button>
+                                                        {{ __('テスト点数入力') }}
+                                                    </x-primary-button>
+                                                </a>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-no-wrap text-sm">
+                                                <a href="{{ route('attendances.index', ['student' => $student->id]) }}">
                                                     <x-primary-button>
                                                         {{ __('出席状況確認') }}
                                                     </x-primary-button>
@@ -99,11 +113,11 @@
                                                         ->first();
                                                 @endphp
                                                 @if ($todayAttendance)
-                                                    <span class="px-2 py-1 ml-2 rounded {{ $todayAttendance->status == '出席' ? 'bg-green-200 text-green-800' : ($todayAttendance->status == '遅刻' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800') }}">
+                                                    <span class="px-2 py-1 ml-4 rounded {{ $todayAttendance->status == '出席' ? 'bg-green-200 text-green-800' : ($todayAttendance->status == '遅刻' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800') }}">
                                                         {{ $todayAttendance->status }}
                                                     </span>
                                                 @else
-                                                    <a href="{{ route('attendances.create', ['student' => $student->id, 'date' => now()->toDateString()]) }}" class="ml-2">
+                                                    <a href="{{ route('attendances.create', ['student' => $student->id, 'date' => now()->toDateString()]) }}" class="ml-4">
                                                         <x-primary-button>
                                                             {{ __('出席登録') }}
                                                         </x-primary-button>
