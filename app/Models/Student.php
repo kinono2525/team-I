@@ -24,4 +24,11 @@ class Student extends Model
     {
         return $this->hasMany(Test::class);
     }
+    /**
+     * Get the attendances for the student.
+     */
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }

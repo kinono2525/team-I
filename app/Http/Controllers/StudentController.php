@@ -57,6 +57,7 @@ class StudentController extends Controller
     public function edit(Student $student)
     {
         //
+        return view('students.edit', compact('student'));
     }
 
     /**
@@ -65,6 +66,16 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         //
+        $request->validate([
+            'grade' => 'required|integer|min:1|max:12',
+            'school' => 'required|string|max:255',
+        ]);
+
+        $student->update($request->only(['grade','school']));
+
+        return redirect()
+            ->route('students.search')
+            ->with('success', '生徒情報を更新しました。');
     }
 
     /**
