@@ -1,34 +1,60 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>テスト答え</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>英単語テストの答え</title>
     <style>
+        @font-face{
+            font-family: ipag;
+            font-style: normal;
+            font-weight: normal;
+            src:url('{{ storage_path('fonts/ipag.ttf')}}');
+        }
+        @font-face{
+            font-family: ipag;
+            font-style: bold;
+            font-weight: bold;
+            src:url('{{ storage_path('fonts/ipag.ttf')}}');
+        }
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 20px;
-            font-size: 14px;
+            font-family: ipag;
         }
-        h1 {
-            text-align: center;
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-        .question {
-            margin-bottom: 20px;
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
         }
     </style>
+
 </head>
 <body>
-    <h1>テスト答え</h1>
-
-    @if($questions->isNotEmpty())
-        @foreach($questions as $question)
-            <div class="question">
-                <strong>質問:</strong> {{ $question->text }}<br>
-                <strong>選択肢:</strong> {{ $question->options }}
-            </div>
-        @endforeach
-    @else
-        <p>質問がありません。</p>
-    @endif
+    <h1>英単語テストの答え</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>英単語</th>
+                <th>読み（訳語）</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($questions as $i => $q)
+                <tr>
+                    <td>{{ $i + 1 }}</td>
+                    <td>{{ $q->word }}</td>
+                    <td>{{ $q->translation }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 </body>
 </html>
