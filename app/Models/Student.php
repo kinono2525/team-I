@@ -31,4 +31,11 @@ class Student extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+    /**
+     * Get the wrong questions for the student.
+     */
+    public function wrong_questions()
+    {
+        return $this->hasMany(WrongQuestion::class);
+    }
 }

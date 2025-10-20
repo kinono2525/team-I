@@ -99,6 +99,11 @@
                                                         {{ __('テスト点数入力') }}
                                                     </x-primary-button>
                                                 </a>
+                                                <a href="{{ route('wrong_questions.index', ['student' => $student->id]) }}" class="ml-4">
+                                                    <x-primary-button>
+                                                        {{ __('間違えた問題') }}
+                                                    </x-primary-button>
+                                                </a>
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm">
                                                 <a href="{{ route('attendances.index', ['student' => $student->id]) }}">

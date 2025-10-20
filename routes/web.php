@@ -19,13 +19,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/wrong-questions', [WrongQuestionController::class, 'index'])->name('wrong_questions.index');
-    Route::post('/wrong-questions', [WrongQuestionController::class, 'store'])->name('wrong_questions.store');
     Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
     Route::resource('students', StudentController::class);
     Route::prefix('students/{student}')->group(function () {
         Route::resource('attendances', AttendanceController::class);
         Route::resource('tests', TestController::class);
+        Route::resource('wrong_questions', WrongQuestionController::class)->only(['index','store']);
     });
 });
 
