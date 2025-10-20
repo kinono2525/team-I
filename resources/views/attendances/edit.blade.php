@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('出席編集') }}
+            {{ __('出席編集') }}：{{ $student->name_kanji }}
         </h2>
     </x-slot>
 
@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="flex items-center gap-4">
-                            <x-primary-button>{{ __('更新') }}</x-primary-button>
+                            <x-primary-button class="px-6">{{ __('更新') }}</x-primary-button>
                         </div>
                     </form>
                 </div>

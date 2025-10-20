@@ -40,8 +40,8 @@
                                 <x-text-input id="school" name="school" type="text" class="mt-1 block w-full" value="{{ $student->school }}" required />
                             </div>
                         </div>
-                        <div class="mt-6">
-                            <x-primary-button>{{ __('更新') }}</x-primary-button>
+                        <div class="mt-6 text-right">
+                            <x-primary-button class="px-6">{{ __('更新') }}</x-primary-button>
                         </div>
                     </form>
                 </div>

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('出席状況確認') }}
+            {{ __('出席状況確認') }}：{{ $student->name_kanji }}
         </h2>
     </x-slot>
 
@@ -9,7 +9,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-medium mb-4">{{ $student->name_kanji }} さんの出席一覧</h3>
 
                     <!-- 月選択 + 前半後半切り替え -->
                     <form method="GET" action="{{ route('attendances.index', ['student' => $student->id]) }}" class="mb-6">
@@ -26,7 +25,7 @@
                                 </select>
                             </div>
                             <div class="self-end">
-                                <x-primary-button>{{ __('選択') }}</x-primary-button>
+                                <x-primary-button class="px-8 py-3">{{ __('選択') }}</x-primary-button>
                             </div>
                         </div>
                     </form>
@@ -77,13 +76,13 @@
                                         @if ($current->lte(now()))
                                             @if ($attendance)
                                                 <a href="{{ route('attendances.edit', ['student' => $student->id, 'attendance' => $attendance->id]) }}">
-                                                    <x-primary-button class="bg-blue-500 hover:bg-blue-700">
+                                                    <x-primary-button class="px-6">
                                                         編集
                                                     </x-primary-button>
                                                 </a>
                                             @else
                                                 <a href="{{ route('attendances.create', ['student' => $student->id, 'date' => $current->toDateString()]) }}">
-                                                    <x-primary-button class="bg-green-500 hover:bg-green-600">
+                                                    <x-primary-button class="px-6">
                                                         登録
                                                     </x-primary-button>
                                                 </a>

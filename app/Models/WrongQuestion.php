@@ -11,6 +11,14 @@ class WrongQuestion extends Model
 
     protected $fillable = [
         'word',
-        'translation'
+        'translation',
+        'student_id',
     ];
+    /**
+     * Get the student that owns the wrong question.
+     */
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }
