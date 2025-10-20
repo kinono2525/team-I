@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('テスト点数編集') }}
+            {{ __('点数編集') }}：{{ $student->name_kanji }}
         </h2>
     </x-slot>
 
@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h2 class="text-xl font-semibold mb-6">{{ $student->name_kanji }} さんの {{ $test->test_name }} 第{{$index}}回テスト点数編集</h2>
+                    <h2 class="text-xl font-semibold mb-6"> {{ $test->test_name }} 第{{$index}}回</h2>
 
                     <form method="POST" action="{{ route('tests.update', ['student' => $student->id, 'test' => $test->id]) }}">
                         @csrf

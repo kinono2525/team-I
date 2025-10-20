@@ -10,6 +10,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!-- 検索フォーム -->
+                    <h2 class="text-xl font-semibold mx-4 mb-4">生徒検索フォーム</h2>
                     <form method="GET" action="{{ route('students.search') }}" class="mb-6">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
@@ -30,13 +31,14 @@
                                 <x-text-input id="school" name="school" type="text" class="mt-1 block w-full" value="{{ request('school') }}" />
                             </div>
                         </div>
-                        <div class="mt-4">
-                            <x-primary-button>{{ __('検索') }}</x-primary-button>
+                        <div class="mt-4 text-right">
+                            <x-primary-button class="px-8 mr-3">{{ __('検索') }}</x-primary-button>
                         </div>
                     </form>
 
                     <!-- 検索結果テーブル -->
-                    <div class="mt-6">
+                    <div class="mt-8">
+                        <h2 class="text-xl font-semibold m-4">検索結果</h2>
                         @if ($students->count() > 0)
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead>
@@ -48,13 +50,13 @@
                                             <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">氏名</span>
                                         </th>
                                         <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
-                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">学校名</span>
-                                        </th>
-                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
                                             <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">学年</span>
                                         </th>
                                         <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
-                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">操作</span>
+                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">学校名</span>
+                                        </th>
+                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
+                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">生徒情報編集</span>
                                         </th>
                                         <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
                                             <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">テスト関連</span>
@@ -79,13 +81,14 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm">
                                                 <div class="text-gray-900 dark:text-gray-100">
-                                                    {{ $student->school }}
+                                                    {{ $student->grade }}
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm">
                                                 <div class="text-gray-900 dark:text-gray-100">
-                                                    {{ $student->grade }}
+                                                    {{ $student->school }}
                                                 </div>
+                                            </td>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm">
                                                 <a href="{{ route('students.edit', ['student' => $student->id]) }}">
                                                     <x-primary-button>
@@ -96,12 +99,12 @@
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm">
                                                 <a href="{{ route('tests.index', ['student' => $student->id]) }}">
                                                     <x-primary-button>
-                                                        {{ __('テスト点数入力') }}
+                                                        {{ __('点数入力') }}
                                                     </x-primary-button>
                                                 </a>
                                                 <a href="{{ route('wrong_questions.index', ['student' => $student->id]) }}" class="ml-4">
                                                     <x-primary-button>
-                                                        {{ __('間違えた問題') }}
+                                                        {{ __('単語入力') }}
                                                     </x-primary-button>
                                                 </a>
                                             </td>
@@ -118,9 +121,12 @@
                                                         ->first();
                                                 @endphp
                                                 @if ($todayAttendance)
-                                                    <span class="px-2 py-1 ml-4 rounded {{ $todayAttendance->status == '出席' ? 'bg-green-200 text-green-800' : ($todayAttendance->status == '遅刻' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800') }}">
+                                                    <x-primary-button
+                                                        class="ml-4 px-7 bg-gray-400 hover:bg-gray-400 cursor-not-allowed"
+                                                        disabled
+                                                    >
                                                         {{ $todayAttendance->status }}
-                                                    </span>
+                                                    </x-primary-button>
                                                 @else
                                                     <a href="{{ route('attendances.create', ['student' => $student->id, 'date' => now()->toDateString()]) }}" class="ml-4">
                                                         <x-primary-button>

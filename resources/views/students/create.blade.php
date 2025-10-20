@@ -41,8 +41,8 @@
                                 <x-text-input id="school" name="school" type="text" class="mt-1 block w-full" required />
                             </div>
                         </div>
-                        <div class="mt-6">
-                            <x-primary-button>{{ __('登録') }}</x-primary-button>
+                        <div class="mt-6 text-right">
+                            <x-primary-button class="px-6">{{ __('登録') }}</x-primary-button>
                         </div>
                     </form>
                 </div>

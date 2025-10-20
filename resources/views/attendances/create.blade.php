@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('出席登録') }}
+            {{ __('出席登録') }}：{{ $student->name_kanji }}
         </h2>
     </x-slot>
 
@@ -35,13 +35,13 @@
                         </div>
 
                         <div>
-                            <x-input-label for="remarks" :value="__('備考')" />
-                            <textarea id="remarks" name="remarks" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" rows="3"></textarea>
-                            <x-input-error class="mt-2" :messages="$errors->get('remarks')" />
+                            <x-input-label for="note" :value="__('備考')" />
+                            <textarea id="note" name="note" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" rows="3"></textarea>
+                            <x-input-error class="mt-2" :messages="$errors->get('note')" />
                         </div>
 
                         <div class="flex items-center gap-4">
-                            <x-primary-button>{{ __('登録') }}</x-primary-button>
+                            <x-primary-button class="px-6">{{ __('登録') }}</x-primary-button>
                         </div>
                     </form>
                 </div>
