@@ -56,6 +56,9 @@
                                             <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">学校名</span>
                                         </th>
                                         <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
+                                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">詳細</span>
+                                        </th>
+                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
                                             <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">生徒情報編集</span>
                                         </th>
                                         <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
@@ -76,6 +79,11 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm">
                                                 <div class="text-gray-900 dark:text-gray-100">
+                                                    {{ $student->school }}
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-no-wrap text-sm">
+                                                <div class="text-gray-900 dark:text-gray-100">
                                                     {{ $student->name_kanji }}
                                                 </div>
                                             </td>
@@ -85,9 +93,11 @@
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm">
-                                                <div class="text-gray-900 dark:text-gray-100">
-                                                    {{ $student->school }}
-                                                </div>
+                                                <a href="{{ route('students.detail', ['student' => $student->id]) }}">
+                                                    <x-primary-button>
+                                                        {{ __('詳細') }}
+                                                    </x-primary-button>
+                                                </a>
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm">
                                                 <a href="{{ route('students.edit', ['student' => $student->id]) }}">
