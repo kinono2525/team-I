@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
     Route::resource('students', StudentController::class);
+    Route::get('/students/{student}/detail', [StudentController::class, 'detail'])->name('students.detail');
     Route::prefix('students/{student}')->group(function () {
         Route::resource('attendances', AttendanceController::class);
         Route::resource('tests', TestController::class);
