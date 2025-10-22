@@ -52,12 +52,29 @@
                                     </table>
                                 </div>
                                 
-                            
-                                <!-- 追加ボタン -->
-                                <a href="{{ route('tests.create', ['student' => $student->id, 'type' => $test_type]) }}"
-                                    class="bg-blue-500 text-white px-6 py-2 ml-4 rounded-md hover:bg-blue-600">
-                                    追加
-                                </a>
+                                <div>
+                                    @php
+                                        // 現在の登録数
+                                        $count = $tests->where('test_name', $test_type)->count();
+                                        // 上限（ここでは $columns に一致させてOK）
+                                        $limit = $columns[$test_type];
+                                    @endphp
+
+                                    <!-- 追加ボタン -->
+                                    @if ($count < $limit)
+                                        <a href="{{ route('tests.create', ['student' => $student->id, 'type' => $test_type]) }}"
+                                            class="bg-blue-500 text-white px-6 py-2 ml-4 rounded-md hover:bg-blue-600">
+                                            追加
+                                        </a>
+                                    @else
+                                        <button
+                                            class="bg-gray-400 text-white px-6 py-2 ml-4 rounded-md cursor-not-allowed"
+                                            disabled
+                                        >
+                                            追加
+                                        </button>
+                                    @endif
+                                </div>
                             </div>
                         @endforeach
                     </div>
