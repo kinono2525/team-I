@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('students/{student}')->group(function () {
         Route::resource('attendances', AttendanceController::class);
         Route::resource('tests', TestController::class);
+        Route::get('wrong-questions/pdf', [WrongQuestionController::class, 'pdf'])->name('wrong_questions.pdf');
         Route::resource('wrong_questions', WrongQuestionController::class)->only(['index','store']);
     });
 });

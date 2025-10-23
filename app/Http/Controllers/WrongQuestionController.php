@@ -46,4 +46,19 @@ class WrongQuestionController extends Controller{
         return redirect()->route('wrong_questions.index', ['student' => $student->id])
             ->with('success', '間違えた問題を保存しました。');
     }
+
+    public function pdf(){
+        $questions = WrongQuestion::all();
+        $pdf1 = Pdf::loadView('pdf.test', compact('questions'));
+        $pdf2 = Pdf::loadView('pdf.answer', compact('questions'));
+        $zip = new \ZipArchive();
+        $zipPath = storage_path('app/public/test.zip');
+        if($zip->open($zipPath,\ZipArchive::CREATE | \ZipArchive::OVERWRITE)){
+            $zip->addFromString('test.pdf', $pdf1->output());
+            $zip->addFromString('answer.pdf', $pdf2->output());
+            $zip->close();
+            WrongQuestion::truncate();
+            return response()->download($zipPath, 'test.zip')->deleteFileAfterSend(true);
+        }
+    }
 }
