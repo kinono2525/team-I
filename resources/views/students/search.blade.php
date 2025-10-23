@@ -94,17 +94,17 @@
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-no-wrap text-sm">
                                                     <div class="text-gray-900 dark:text-gray-100">
-                                                        {{ $student->school }}
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-no-wrap text-sm">
-                                                    <div class="text-gray-900 dark:text-gray-100">
                                                         {{ $student->name_kanji }}
                                                     </div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-no-wrap text-sm">
                                                     <div class="text-gray-900 dark:text-gray-100">
                                                         {{ $student->grade }}
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-no-wrap text-sm">
+                                                    <div class="text-gray-900 dark:text-gray-100">
+                                                        {{ $student->school }}
                                                     </div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-no-wrap text-sm">
