@@ -51,6 +51,21 @@ class TestController extends Controller
         ]);
 
         //データの挿入
+        $count = Test::where('student_id', $student->id)
+            ->where('test_name', $validated['test_name'])
+            ->count();
+
+        $limits = [
+            'S1' => 27,
+            'S2' => 34,
+            'S3' => 24,
+        ];
+        if (isset($limits[$validated['test_name']]) && $count > $limits[$validated['test_name']]) {
+            return redirect()
+                ->route('tests.index', ['student' => $student->id])
+                ->with('error', 'これ以上同じ種類のテストを追加できません。');
+        }
+
         $student->tests()->create($validated);
 
         return redirect()

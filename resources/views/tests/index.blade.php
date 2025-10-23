@@ -5,6 +5,20 @@
         </h2>
     </x-slot>
 
+    @if (session('success'))
+        <div 
+            x-data="{ show: true }" 
+            x-show="show"
+            x-init="setTimeout(() => show = false, 3000)"
+            class="max-w-7xl mx-auto mt-4"
+        >
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">成功！</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        </div>
+    @endif
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -52,12 +66,29 @@
                                     </table>
                                 </div>
                                 
-                            
-                                <!-- 追加ボタン -->
-                                <a href="{{ route('tests.create', ['student' => $student->id, 'type' => $test_type]) }}"
-                                    class="bg-blue-500 text-white px-6 py-2 ml-4 rounded-md hover:bg-blue-600">
-                                    追加
-                                </a>
+                                <div>
+                                    @php
+                                        // 現在の登録数
+                                        $count = $tests->where('test_name', $test_type)->count();
+                                        // 上限（ここでは $columns に一致させてOK）
+                                        $limit = $columns[$test_type];
+                                    @endphp
+
+                                    <!-- 追加ボタン -->
+                                    @if ($count < $limit)
+                                        <a href="{{ route('tests.create', ['student' => $student->id, 'type' => $test_type]) }}"
+                                            class="bg-blue-500 text-white px-6 py-2 ml-4 rounded-md hover:bg-blue-600">
+                                            追加
+                                        </a>
+                                    @else
+                                        <button
+                                            class="bg-gray-400 text-white px-6 py-2 ml-4 rounded-md cursor-not-allowed"
+                                            disabled
+                                        >
+                                            追加
+                                        </button>
+                                    @endif
+                                </div>
                             </div>
                         @endforeach
                     </div>
