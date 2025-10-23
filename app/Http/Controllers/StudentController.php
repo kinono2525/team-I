@@ -109,4 +109,30 @@ class StudentController extends Controller
             'students' => $students,
         ]);
     }
+
+    /**
+     * Show the detail page for a student.
+     */
+    public function detail(Student $student)
+    {
+        // ダミーデータのタスク一覧
+        $tasks = [
+            [
+                'name' => '英単語プリント提出',
+                'deadline' => '2025-10-25',
+                'status' => '未完了',
+            ],
+            [
+                'name' => '数学課題提出',
+                'deadline' => '2025-10-28',
+                'status' => '完了',
+            ],
+            [
+                'name' => '保護者面談アンケート記入',
+                'deadline' => '2025-10-30',
+                'status' => '未完了',
+            ],
+        ];
+        return view('students.detail', compact('student', 'tasks'));
+    }
 }
