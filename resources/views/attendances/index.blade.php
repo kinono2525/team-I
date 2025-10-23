@@ -95,11 +95,7 @@
                                                     </x-primary-button>
                                                 </a>
                                             @else
-                                                <a href="{{ route('attendances.create', ['student' => $student->id, 'date' => $current->toDateString()]) }}">
-                                                    <x-primary-button class="px-6">
-                                                        登録
-                                                    </x-primary-button>
-                                                </a>
+                                                <div>ー</div>
                                             @endif
                                         @else
                                             <span class="text-gray-400"></span>
