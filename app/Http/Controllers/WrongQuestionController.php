@@ -45,7 +45,7 @@ class WrongQuestionController extends Controller{
             }
         }
         return redirect()->route('wrong_questions.index', ['student' => $student->id])
-            ->with('success', '間違えた問題を保存しました。');
+            ->with('success', '保存処理を完了しました。');
     }
 
     public function pdf(Student $student)
