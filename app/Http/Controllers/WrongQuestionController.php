@@ -62,14 +62,14 @@ class WrongQuestionController extends Controller{
         $pdf1 = Pdf::loadView('pdf.test', compact('questions', 'student'));
         $pdf2 = Pdf::loadView('pdf.answer', compact('questions', 'student'));
 
-        $zipFileName = "test_{$student->id}.zip";
+        $zipFileName = "test_{$student->name_kanji}.zip";
         $zipPath = storage_path("app/public/{$zipFileName}");
 
         $zip = new \ZipArchive();
         
         if($zip->open($zipPath,\ZipArchive::CREATE | \ZipArchive::OVERWRITE)){
-            $zip->addFromString("test_{$student->id}.pdf", $pdf1->output());
-            $zip->addFromString("answer_{$student->id}.pdf", $pdf2->output());
+            $zip->addFromString("test_{$student->name_kanji}.pdf", $pdf1->output());
+            $zip->addFromString("answer_{$student->name_kanji}.pdf", $pdf2->output());
             $zip->close();
 
             // 出力済みの問題を削除
