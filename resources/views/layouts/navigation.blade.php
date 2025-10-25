@@ -13,7 +13,13 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('ホーム') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('students.search')" :active="request()->routeIs('students.search')">
+                        {{ __('生徒選択') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('students.create')" :active="request()->routeIs('students.create')">
+                        {{ __('生徒情報登録') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -69,6 +75,12 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('students.search')" :active="request()->routeIs('students.search')">
+                {{ __('生徒選択') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('students.create')" :active="request()->routeIs('students.create')">
+                {{ __('生徒情報登録') }}
             </x-responsive-nav-link>
         </div>
 
