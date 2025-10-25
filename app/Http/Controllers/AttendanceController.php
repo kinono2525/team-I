@@ -64,21 +64,21 @@ class AttendanceController extends Controller
             'date' => 'required|date',
             'status' => 'required|string|max:50',
             'note' => 'nullable|string|max:255',
-            'test_name' => 'nullable|string|in:S1,S2,S3',
         ]);
         
-        $attendance = $student->attendances()->create($validated);
         // 出席情報を登録
-        $student->attendances()->create([
+        $attendance = $student->attendances()->create([
             'date' => $validated['date'],
             'status' => $validated['status'],
             'note' => $validated['note'],
         ]);
 
-        // テストが選択されている場合、テストタスクを作成
-        if (!empty($validated['test_name'])) {
+        // 次に実施すべきテストを自動的にタスクとして追加
+        $nextTest = $this->getNextTest($student);
+        
+        if ($nextTest) {
             $student->tests()->create([
-                'test_name' => $validated['test_name'],
+                'test_name' => $nextTest['test_name'],
                 'scheduled_date' => $validated['date'],
                 'score' => 0, // 初期値
                 'is_completed' => false,
@@ -94,6 +94,40 @@ class AttendanceController extends Controller
                 ->route('students.search')
                 ->with('success', '欠席情報を追加しました。');
         }
+    }
+
+    /**
+     * 次に実施すべきテストを判定する
+     */
+    private function getNextTest(Student $student)
+    {
+        // テストの上限回数
+        $limits = [
+            'S1' => 27,
+            'S2' => 34,
+            'S3' => 24,
+        ];
+
+        $testTypes = ['S1', 'S2', 'S3'];
+
+        foreach ($testTypes as $testType) {
+            // scheduled_dateがNULLのテスト（点数記録用）のみをカウント
+            $completedCount = $student->tests()
+                ->where('test_name', $testType)
+                ->whereNull('scheduled_date')
+                ->count();
+
+            // まだ上限に達していない場合、次の回を返す
+            if ($completedCount < $limits[$testType]) {
+                return [
+                    'test_name' => $testType,
+                    'index' => $completedCount + 1,
+                ];
+            }
+        }
+
+        // すべてのテストが完了している場合
+        return null;
     }
 
     /**
