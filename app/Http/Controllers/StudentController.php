@@ -128,10 +128,18 @@ class StudentController extends Controller
             ->whereNotNull('scheduled_date')
             ->orderBy('scheduled_date')
             ->get()
-            ->map(function ($test) {
+            ->map(function ($test) use ($student) {
+                // このテストタイプの何回目かを計算
+                $completedCount = $student->tests()
+                    ->where('test_name', $test->test_name)
+                    ->whereNull('scheduled_date')
+                    ->count();
+                
+                $index = $completedCount + 1;
+                
                 return [
                     'id' => $test->id,
-                    'name' => $test->test_name . ' テスト',
+                    'name' => $test->test_name . ' 第' . $index . '回',
                     'deadline' => $test->scheduled_date->format('Y-m-d'),
                     'status' => $test->is_completed ? '完了' : '未完了',
                 ];
@@ -151,5 +159,59 @@ class StudentController extends Controller
         return redirect()
             ->route('students.detail', ['student' => $student->id])
             ->with('success', 'タスクを完了しました。');
+    }
+
+    /**
+     * Show the score input form for a task.
+     */
+    public function inputScore(Student $student, $task)
+    {
+        $test = $student->tests()
+            ->where('id', $task)
+            ->whereNotNull('scheduled_date')
+            ->firstOrFail();
+
+        // このテストタイプの何回目かを計算
+        $index = $student->tests()
+            ->where('test_name', $test->test_name)
+            ->whereNull('scheduled_date')
+            ->count() + 1;
+
+        return view('students.task-input-score', compact('student', 'test', 'index'))
+            ->with('task', $test);
+    }
+
+    /**
+     * Store the score for a task and mark it as completed.
+     */
+    public function storeScore(Request $request, Student $student, $task)
+    {
+        $validated = $request->validate([
+            'score' => 'required|integer|min:0|max:100',
+        ]);
+
+        // タスク用のテストレコードを取得
+        $taskTest = $student->tests()
+            ->where('id', $task)
+            ->whereNotNull('scheduled_date')
+            ->firstOrFail();
+
+        // 点数記録用の新しいテストレコードを作成（scheduled_date = NULL）
+        $student->tests()->create([
+            'test_name' => $taskTest->test_name,
+            'score' => $validated['score'],
+            'scheduled_date' => null, // 点数記録用はNULL
+            'is_completed' => true,
+        ]);
+
+        // タスクを完了としてマーク
+        $taskTest->update([
+            'is_completed' => true,
+            'score' => $validated['score'], // タスクにも点数を記録
+        ]);
+
+        return redirect()
+            ->route('students.detail', ['student' => $student->id])
+            ->with('success', '点数を登録しました。');
     }
 }
