@@ -93,8 +93,14 @@ class StudentController extends Controller
     {
         $query = Student::query();
 
-        if ($request->filled('name')) {
+        if ($request->filled('name_kanji')) {
             $query->where('name_kanji', 'like', '%' . $request->input('name') . '%');
+        }
+        if ($request->filled('name_kana')) {
+            $query->where('name_kana', 'like', '%' . $request->input('name_kana') . '%');
+        }
+        if ($request->filled('gender')) {
+            $query->where('gender', $request->input('gender'));
         }
         if ($request->filled('grade')) {
             $query->where('grade', $request->input('grade'));  
