@@ -1,9 +1,23 @@
 <x-app-layout>
 	<x-slot name="header">
 		<h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-			{{ __('生徒詳細') }}
+			{{ __('生徒詳細') }}：{{ $student->name_kanji }} 
 		</h2>
 	</x-slot>
+
+	@if (session('success'))
+        <div 
+            x-data="{ show: true }" 
+            x-show="show"
+            x-init="setTimeout(() => show = false, 3000)"
+            class="max-w-7xl mx-auto mt-4"
+        >
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">成功！</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        </div>
+    @endif
 
 	<div class="py-12">
 		<div class="max-w-4xl mx-auto sm:px-6 lg:px-8">

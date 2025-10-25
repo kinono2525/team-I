@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Models\WrongQuestion;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class WrongQuestionController extends Controller{
 
@@ -44,21 +45,39 @@ class WrongQuestionController extends Controller{
             }
         }
         return redirect()->route('wrong_questions.index', ['student' => $student->id])
-            ->with('success', '間違えた問題を保存しました。');
+            ->with('success', '保存処理を完了しました。');
     }
 
-    public function pdf(){
-        $questions = WrongQuestion::all();
-        $pdf1 = Pdf::loadView('pdf.test', compact('questions'));
-        $pdf2 = Pdf::loadView('pdf.answer', compact('questions'));
-        $zip = new \ZipArchive();
-        $zipPath = storage_path('app/public/test.zip');
-        if($zip->open($zipPath,\ZipArchive::CREATE | \ZipArchive::OVERWRITE)){
-            $zip->addFromString('test.pdf', $pdf1->output());
-            $zip->addFromString('answer.pdf', $pdf2->output());
-            $zip->close();
-            WrongQuestion::truncate();
-            return response()->download($zipPath, 'test.zip')->deleteFileAfterSend(true);
+    public function pdf(Student $student)
+    {
+        // 生徒ごとの問題を取得
+        $questions = $student->wrong_questions;
+
+        // 該当生徒に質問がなければ処理を止める
+        if ($questions->isEmpty()) {
+            return back()->with('error', 'この生徒には問題がありません。');
         }
+
+        // PDFを生成
+        $pdf1 = Pdf::loadView('pdf.test', compact('questions', 'student'));
+        $pdf2 = Pdf::loadView('pdf.answer', compact('questions', 'student'));
+
+        $zipFileName = "test_{$student->name_kanji}.zip";
+        $zipPath = storage_path("app/public/{$zipFileName}");
+
+        $zip = new \ZipArchive();
+        
+        if($zip->open($zipPath,\ZipArchive::CREATE | \ZipArchive::OVERWRITE)){
+            $zip->addFromString("test_{$student->name_kanji}.pdf", $pdf1->output());
+            $zip->addFromString("answer_{$student->name_kanji}.pdf", $pdf2->output());
+            $zip->close();
+
+            // 出力済みの問題を削除
+            WrongQuestion::where('student_id', $student->id)->delete();
+            
+            return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
+        }
+
+        return back()->with('error', 'ZIPの作成に失敗しました。');
     }
 }

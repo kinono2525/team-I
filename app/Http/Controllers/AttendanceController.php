@@ -66,11 +66,17 @@ class AttendanceController extends Controller
             'note' => 'nullable|string|max:255',
         ]);
         
-        $student->attendances()->create($validated);
+        $attendance = $student->attendances()->create($validated);
 
-        return redirect()
-            ->route('students.search')
-            ->with('success', '出席情報を追加しました。');
+        if (in_array($attendance->status, ['出席', '遅刻'])) {
+            return redirect()
+                ->route('students.detail', ['student' => $student->id])
+                ->with('success', '出席情報を追加しました。');
+        } else { // 欠席の場合
+            return redirect()
+                ->route('students.search')
+                ->with('success', '欠席情報を追加しました。');
+        }
     }
 
     /**
