@@ -40,6 +40,18 @@
                             <x-input-error class="mt-2" :messages="$errors->get('note')" />
                         </div>
 
+                        <div>
+                            <x-input-label for="test_name" :value="__('今日のテスト')" />
+                            <select id="test_name" name="test_name" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                                <option value="">選択なし</option>
+                                <option value="S1">S1</option>
+                                <option value="S2">S2</option>
+                                <option value="S3">S3</option>
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('test_name')" />
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">※テストは生徒詳細画面にタスクとして表示されます</p>
+                        </div>
+
                         <div class="flex items-center gap-4">
                             <x-primary-button class="px-6">{{ __('登録') }}</x-primary-button>
                         </div>

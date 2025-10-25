@@ -64,9 +64,26 @@ class AttendanceController extends Controller
             'date' => 'required|date',
             'status' => 'required|string|max:50',
             'note' => 'nullable|string|max:255',
+            'test_name' => 'nullable|string|in:S1,S2,S3',
         ]);
         
         $attendance = $student->attendances()->create($validated);
+        // 出席情報を登録
+        $student->attendances()->create([
+            'date' => $validated['date'],
+            'status' => $validated['status'],
+            'note' => $validated['note'],
+        ]);
+
+        // テストが選択されている場合、テストタスクを作成
+        if (!empty($validated['test_name'])) {
+            $student->tests()->create([
+                'test_name' => $validated['test_name'],
+                'scheduled_date' => $validated['date'],
+                'score' => 0, // 初期値
+                'is_completed' => false,
+            ]);
+        }
 
         if (in_array($attendance->status, ['出席', '遅刻'])) {
             return redirect()

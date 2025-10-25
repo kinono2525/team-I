@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
     Route::resource('students', StudentController::class);
     Route::get('/students/{student}/detail', [StudentController::class, 'detail'])->name('students.detail');
+    Route::patch('/students/{student}/task/{task}/complete', [StudentController::class, 'completeTask'])->name('students.task.complete');
     Route::prefix('students/{student}')->group(function () {
         Route::resource('attendances', AttendanceController::class);
         Route::resource('tests', TestController::class);

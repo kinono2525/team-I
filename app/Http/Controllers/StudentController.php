@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Test;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -121,24 +122,34 @@ class StudentController extends Controller
      */
     public function detail(Student $student)
     {
-        // ダミーデータのタスク一覧
-        $tasks = [
-            [
-                'name' => '英単語プリント提出',
-                'deadline' => '2025-10-25',
-                'status' => '未完了',
-            ],
-            [
-                'name' => '数学課題提出',
-                'deadline' => '2025-10-28',
-                'status' => '完了',
-            ],
-            [
-                'name' => '保護者面談アンケート記入',
-                'deadline' => '2025-10-30',
-                'status' => '未完了',
-            ],
-        ];
+        // 未完了のテストタスクを取得（scheduled_dateで並び替え）
+        $tasks = $student->tests()
+            ->where('is_completed', false)
+            ->whereNotNull('scheduled_date')
+            ->orderBy('scheduled_date')
+            ->get()
+            ->map(function ($test) {
+                return [
+                    'id' => $test->id,
+                    'name' => $test->test_name . ' テスト',
+                    'deadline' => $test->scheduled_date->format('Y-m-d'),
+                    'status' => $test->is_completed ? '完了' : '未完了',
+                ];
+            });
+
         return view('students.detail', compact('student', 'tasks'));
+    }
+
+    /**
+     * Mark a test task as completed.
+     */
+    public function completeTask(Student $student, $task)
+    {
+        $test = $student->tests()->findOrFail($task);
+        $test->update(['is_completed' => true]);
+
+        return redirect()
+            ->route('students.detail', ['student' => $student->id])
+            ->with('success', 'タスクを完了しました。');
     }
 }

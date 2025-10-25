@@ -13,4 +13,16 @@ class Attendance extends Model
         'status',
         'note',
     ];
+
+    protected $casts = [
+        'date' => 'date',
+    ];
+
+    /**
+     * Get the student that owns the attendance.
+     */
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }
