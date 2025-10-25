@@ -122,6 +122,9 @@ class StudentController extends Controller
      */
     public function detail(Student $student)
     {
+        // 重複タスクをクリーンアップ（既存の重複を削除）
+        $this->cleanupAllDuplicateTasks($student);
+
         // 未完了のテストタスクを取得（scheduled_dateで並び替え）
         $tasks = $student->tests()
             ->where('is_completed', false)
@@ -210,8 +213,45 @@ class StudentController extends Controller
             'score' => $validated['score'], // タスクにも点数を記録
         ]);
 
+        // 同じテストタイプの重複タスクをクリーンアップ
+        $this->removeDuplicateTasks($student, $taskTest->test_name);
+
         return redirect()
             ->route('students.detail', ['student' => $student->id])
             ->with('success', '点数を登録しました。');
+    }
+
+    /**
+     * 重複タスクを削除する
+     * 同じtest_nameで未完了のタスクが複数ある場合、新しいものを削除して古いものを残す
+     */
+    private function removeDuplicateTasks(Student $student, $testName)
+    {
+        // 同じtest_nameで未完了のタスクを取得（古い順）
+        $tasks = $student->tests()
+            ->where('test_name', $testName)
+            ->where('is_completed', false)
+            ->whereNotNull('scheduled_date')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        // 2件以上ある場合、最初の1件を残して残りを削除
+        if ($tasks->count() > 1) {
+            $tasks->skip(1)->each(function ($task) {
+                $task->delete();
+            });
+        }
+    }
+
+    /**
+     * すべてのテストタイプで重複タスクをクリーンアップ
+     */
+    private function cleanupAllDuplicateTasks(Student $student)
+    {
+        $testTypes = ['S1', 'S2', 'S3'];
+
+        foreach ($testTypes as $testType) {
+            $this->removeDuplicateTasks($student, $testType);
+        }
     }
 }
