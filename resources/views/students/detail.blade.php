@@ -23,7 +23,10 @@
 		<div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 			<div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
 				<div class="p-6 text-gray-900 dark:text-gray-100">
-					<h2 class="text-xl font-semibold mb-4">タスク一覧</h2>
+					<h2 class="text-xl font-semibold mb-2">タスク一覧</h2>
+					<p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+						※出席すると今日のタスクが追加されます
+					</p>
 
 					@if($tasks->isEmpty())
 						<p class="text-gray-500 dark:text-gray-400">現在、タスクはありません。</p>
@@ -57,14 +60,12 @@
 									</td>
 									<td class="px-6 py-4 whitespace-no-wrap text-sm">
 										@if($task['status'] == '未完了')
-											<form method="POST" action="{{ route('students.task.complete', ['student' => $student->id, 'task' => $task['id']]) }}" style="display: inline;">
-												@csrf
-												@method('PATCH')
-												<button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs"
-													onclick="return confirm('このタスクを完了しますか？');">
-													完了
-												</button>
-											</form>
+											<a href="{{ route('students.task.input-score', ['student' => $student->id, 'task' => $task['id']]) }}" 
+												class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs inline-block">
+												点数入力
+											</a>
+										@else
+											<span class="text-gray-500">完了済み</span>
 										@endif
 									</td>
 								</tr>
