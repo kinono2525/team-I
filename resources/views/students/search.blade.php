@@ -103,12 +103,12 @@
                                         @foreach ($students as $student)
                                             <tr>
                                                 <td class="px-4 py-4 whitespace-no-wrap text-sm">
-                                                    <div class="text-gray-900 dark:text-gray-100">
+                                                    <div class="text-gray-900 dark:text-gray-900">
                                                         {{ $student->id }}
                                                     </div>
                                                 </td>
                                                 <td class="px-5 py-4 whitespace-no-wrap text-sm">
-                                                    <div class="text-gray-900 dark:text-gray-100">
+                                                    <div class="text-gray-900 dark:text-gray-900">
                                                         <ruby>
                                                             {{ $student->name_kanji }}
                                                             <rt>{{ $student->name_kana }}</rt>
@@ -116,17 +116,17 @@
                                                     </div>
                                                 </td>
                                                 <td class="px-5 py-4 whitespace-no-wrap text-sm">
-                                                    <div class="text-gray-900 dark:text-gray-100">
+                                                    <div class="text-gray-900 dark:text-gray-900">
                                                         {{ $student->gender }}
                                                     </div>
                                                 </td>
                                                 <td class="px-5 py-4 whitespace-no-wrap text-sm">
-                                                    <div class="text-gray-900 dark:text-gray-100">
+                                                    <div class="text-gray-900 dark:text-gray-900">
                                                         {{ $student->grade }}
                                                     </div>
                                                 </td>
                                                 <td class="px-5 py-4 whitespace-no-wrap text-sm">
-                                                    <div class="text-gray-900 dark:text-gray-100">
+                                                    <div class="text-gray-900 dark:text-gray-900">
                                                         {{ $student->school }}
                                                     </div>
                                                 </td>

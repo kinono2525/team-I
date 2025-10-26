@@ -71,7 +71,7 @@
                                     $attendance = $attendances->get($current->toDateString());
                                 @endphp
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-900">
                                         {{ $current->format('Y-m-d (D)') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -80,10 +80,10 @@
                                                 {{ $attendance->status }}
                                             </span>
                                         @else
-                                            <span class="text-gray-500">未登録</span>
+                                            <span class="text-gray-900 dark:text-gray-900">未登録</span>
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-900">
                                         {{ $attendance->note ?? 'ー' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -95,10 +95,10 @@
                                                     </x-primary-button>
                                                 </a>
                                             @else
-                                                <div>ー</div>
+                                                <div class="text-gray-900 dark:text-gray-900">ー</div>
                                             @endif
                                         @else
-                                            <span class="text-gray-400"></span>
+                                            <span class="text-gray-400 dark:text-gray-900"></span>
                                         @endif
                                     </td>
                                 </tr>
