@@ -1,7 +1,7 @@
 <x-app-layout>
 	<x-slot name="header">
 		<h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-			{{ __('生徒詳細') }}：{{ $student->name_kanji }}
+			📋 {{ __('生徒詳細') }}：{{ $student->name_kanji }}
 		</h2>
 	</x-slot>
 
@@ -23,9 +23,9 @@
 		<div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 			<div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
 				<div class="p-6 text-gray-900 dark:text-gray-100">
-					<h2 class="text-xl font-semibold mb-2">タスク一覧</h2>
+					<h2 class="text-2xl font-semibold mb-2">📋 タスク一覧</h2>
 					<p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-						※出席すると今日のタスクが追加されます
+						💡 ※出席するとタスクが自動追加されます
 					</p>
 
 					@if($tasks->isEmpty())
@@ -54,18 +54,18 @@
 									<td class="px-6 py-4 whitespace-no-wrap text-sm">{{ $task['name'] }}</td>
 									<td class="px-6 py-4 whitespace-no-wrap text-sm">{{ $task['deadline'] }}</td>
 									<td class="px-6 py-4 whitespace-no-wrap text-sm">
-										<span class="px-2 py-1 rounded {{ $task['status'] == '完了' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800' }}">
-											{{ $task['status'] }}
+										<span class="px-2 py-1 rounded font-semibold {{ $task['status'] == '完了' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800' }}">
+											{{ $task['status'] == '完了' ? '✅' : '⏳' }} {{ $task['status'] }}
 										</span>
 									</td>
 									<td class="px-6 py-4 whitespace-no-wrap text-sm">
 										@if($task['status'] == '未完了')
 											<a href="{{ route('students.task.input-score', ['student' => $student->id, 'task' => $task['id']]) }}" 
-												class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs inline-block">
-												点数入力
+												class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs inline-block transition">
+												📝 点数入力
 											</a>
 										@else
-											<span class="text-gray-500">完了済み</span>
+											<span class="text-gray-500">✅ 完了</span>
 										@endif
 									</td>
 								</tr>

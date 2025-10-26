@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('生徒選択') }}
+            👥 {{ __('生徒選択') }}
         </h2>
     </x-slot>
 
@@ -24,7 +24,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!-- 検索フォーム -->
-                    <h2 class="text-xl font-semibold mx-4 mb-4">生徒検索フォーム</h2>
+                    <h2 class="text-2xl font-semibold mx-4 mb-6">🔍 生徒検索フォーム</h2>
                     <form method="GET" action="{{ route('students.search') }}" class="mb-6">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
@@ -64,7 +64,7 @@
 
                     <!-- 検索結果テーブル -->
                     <div class="mt-8">
-                        <h2 class="text-xl font-semibold m-4">検索結果</h2>
+                        <h2 class="text-2xl font-semibold m-4">📋 検索結果</h2>
                         @if ($students->count() > 0)
                             <div class="flex flex-nowrap space-x-3 overflow-x-auto">
                                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -134,7 +134,7 @@
                                                     <div class="flex space-x-4">
                                                         <a href="{{ route('students.detail', ['student' => $student->id]) }}">
                                                             <x-primary-button class="whitespace-nowrap">
-                                                                {{ __('詳細') }}
+                                                                📋 {{ __('詳細') }}
                                                             </x-primary-button>
                                                         </a>
                                                     </div>
@@ -143,7 +143,7 @@
                                                     <div class="flex space-x-4">
                                                         <a href="{{ route('students.edit', ['student' => $student->id]) }}">
                                                             <x-primary-button class="whitespace-nowrap">
-                                                                {{ __('生徒情報編集') }}
+                                                                ✏️ {{ __('生徒情報編集') }}
                                                             </x-primary-button>
                                                         </a>
                                                     </div>
@@ -152,12 +152,12 @@
                                                     <div class="flex space-x-4">
                                                         <a href="{{ route('tests.index', ['student' => $student->id]) }}">
                                                             <x-primary-button class="whitespace-nowrap">
-                                                                {{ __('点数入力') }}
+                                                                📝 {{ __('点数入力') }}
                                                             </x-primary-button>
                                                         </a>
                                                         <a href="{{ route('wrong_questions.index', ['student' => $student->id]) }}" class="ml-3">
                                                             <x-primary-button class="whitespace-nowrap">
-                                                                {{ __('単語入力') }}
+                                                                📖 {{ __('単語入力') }}
                                                             </x-primary-button>
                                                         </a>
                                                     </div>
@@ -166,8 +166,9 @@
                                                     <div class="flex space-x-4">
                                                         <a href="{{ route('attendances.index', ['student' => $student->id]) }}">
                                                             <x-primary-button class="whitespace-nowrap">
-                                                                {{ __('出席状況確認') }}
+                                                                📅 {{ __('出席状況確認') }}
                                                             </x-primary-button>
+                                                        </a>
                                                         </a>
                                                     
                                                         @php
@@ -180,12 +181,12 @@
                                                                 class="ml-3 px-7 !bg-gray-400 !hover:bg-gray-400 cursor-not-allowed whitespace-nowrap"
                                                                 disabled
                                                             >
-                                                                {{ $todayAttendance->status }}
+                                                                {{ $todayAttendance->status == '出席' ? '✅' : ($todayAttendance->status == '遅刻' ? '⏰' : '❌') }} {{ $todayAttendance->status }}
                                                             </x-primary-button>
                                                         @else
                                                             <a href="{{ route('attendances.create', ['student' => $student->id, 'date' => now()->toDateString()]) }}" class="ml-3">
                                                                 <x-primary-button class="whitespace-nowrap">
-                                                                    {{ __('出席登録') }}
+                                                                    ➕ {{ __('出席登録') }}
                                                                 </x-primary-button>
                                                             </a>
                                                         @endif

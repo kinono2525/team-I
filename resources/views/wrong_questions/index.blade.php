@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('英単語登録フォーム') }}：{{ $student->name_kanji }} 
+            📖 {{ __('英単語登録フォーム') }}：{{ $student->name_kanji }} 
         </h2>
     </x-slot>
 

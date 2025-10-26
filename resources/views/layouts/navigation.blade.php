@@ -13,13 +13,13 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('ホーム') }}
+                        🏠 {{ __('ホーム') }}
                     </x-nav-link>
                     <x-nav-link :href="route('students.search')" :active="request()->routeIs('students.search')">
-                        {{ __('生徒選択') }}
+                        👥 {{ __('生徒選択') }}
                     </x-nav-link>
                     <x-nav-link :href="route('students.create')" :active="request()->routeIs('students.create')">
-                        {{ __('生徒情報登録') }}
+                        ➕ {{ __('生徒情報登録') }}
                     </x-nav-link>
                 </div>
             </div>
