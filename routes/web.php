@@ -22,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
     Route::resource('students', StudentController::class);
     Route::get('/students/{student}/detail', [StudentController::class, 'detail'])->name('students.detail');
+    Route::patch('/students/{student}/task/{task}/complete', [StudentController::class, 'completeTask'])->name('students.task.complete');
+    Route::get('/students/{student}/task/{task}/input-score', [StudentController::class, 'inputScore'])->name('students.task.input-score');
+    Route::post('/students/{student}/task/{task}/store-score', [StudentController::class, 'storeScore'])->name('students.task.store-score');
     Route::prefix('students/{student}')->group(function () {
         Route::resource('attendances', AttendanceController::class);
         Route::resource('tests', TestController::class);

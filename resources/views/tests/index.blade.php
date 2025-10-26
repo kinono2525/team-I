@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('点数一覧') }}：{{ $student->name_kanji }}
+            📝 {{ __('点数一覧') }}：{{ $student->name_kanji }}
         </h2>
     </x-slot>
 
@@ -12,7 +12,7 @@
             x-init="setTimeout(() => show = false, 3000)"
             class="max-w-7xl mx-auto mt-4"
         >
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                 <strong class="font-bold">成功！</strong>
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
@@ -25,8 +25,8 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!-- 指定された生徒の点数一覧 -->
                         @foreach($test_types as $test_type)
-                            <div class="mb-10 p-4 shadow-sm dark:shadow-gray-800 dark:bg-gray-800 rounded-lg">
-                                <h4 class="text-lg font-medium mx-4">{{ $test_type }}</h4>
+                            <div class="mb-10 p-4 shadow-sm dark:shadow-gray-800 dark:bg-gray-700 rounded-lg border-l-4 border-blue-500">
+                                <h4 class="text-lg font-semibold mx-4 text-blue-600 dark:text-blue-400">🎓 {{ $test_type }} テスト</h4>
                                 <div class="my-4 overflow-x-auto">
                                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                         <thead>
@@ -44,7 +44,7 @@
                                         <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700">
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-no-wrap text-sm whitespace-nowrap">
-                                                    <span class="text-gray-900 dark:text-gray-100">点数</span>
+                                                    <span class="text-gray-900 dark:text-gray-900">点数</span>
                                                 </td>
                                                 @for ($i = 1; $i <= $columns[$test_type]; $i++)
                                                     @php
@@ -77,12 +77,12 @@
                                     <!-- 追加ボタン -->
                                     @if ($count < $limit)
                                         <a href="{{ route('tests.create', ['student' => $student->id, 'type' => $test_type]) }}"
-                                            class="bg-blue-500 text-white px-6 py-2 ml-4 rounded-md hover:bg-blue-600">
-                                            追加
+                                            class="bg-blue-500 text-white px-6 py-2 ml-4 rounded-md hover:bg-blue-600 transition duration-200 shadow-md">
+                                            ➕ 追加
                                         </a>
                                     @else
                                         <button
-                                            class="bg-gray-400 text-white px-6 py-2 ml-4 rounded-md cursor-not-allowed"
+                                            class="bg-gray-400 text-white px-6 py-2 ml-4 rounded-md cursor-not-allowed opacity-60"
                                             disabled
                                         >
                                             追加

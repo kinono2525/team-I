@@ -13,8 +13,13 @@ class TestController extends Controller
      */
     public function index(Student $student)
     {
-        //
-        $tests = $student->tests;
+        // scheduled_dateがNULLのテスト（点数記録用）のみを取得
+        $tests = $student->tests()
+            ->whereNull('scheduled_date')
+            ->orderBy('test_name')
+            ->orderBy('id')
+            ->get();
+            
         $test_types = ['S1', 'S2', 'S3'];
         $columns = [
             'S1' => 27,
@@ -32,8 +37,11 @@ class TestController extends Controller
     {
         //クエリパラメータからtest_typeを取得
         $testType = $request->query('type');
+        
+        // scheduled_dateがNULLのテスト（点数記録用）のみをカウント
         $index = Test::where('student_id', $student->id)
             ->where('test_name', $testType)
+            ->whereNull('scheduled_date')
             ->count() + 1;
 
         return view('tests.create', compact('student', 'testType', 'index'));
@@ -50,9 +58,10 @@ class TestController extends Controller
             'score' => 'required|integer|min:0|max:100',
         ]);
 
-        //データの挿入
+        //データの挿入（scheduled_dateがNULLのテストのみをカウント）
         $count = Test::where('student_id', $student->id)
             ->where('test_name', $validated['test_name'])
+            ->whereNull('scheduled_date')
             ->count();
 
         $limits = [
@@ -60,13 +69,19 @@ class TestController extends Controller
             'S2' => 34,
             'S3' => 24,
         ];
-        if (isset($limits[$validated['test_name']]) && $count > $limits[$validated['test_name']]) {
+        if (isset($limits[$validated['test_name']]) && $count >= $limits[$validated['test_name']]) {
             return redirect()
                 ->route('tests.index', ['student' => $student->id])
                 ->with('error', 'これ以上同じ種類のテストを追加できません。');
         }
 
-        $student->tests()->create($validated);
+        // scheduled_date = NULL で作成（点数記録用）
+        $student->tests()->create([
+            'test_name' => $validated['test_name'],
+            'score' => $validated['score'],
+            'scheduled_date' => null,
+            'is_completed' => true,
+        ]);
 
         return redirect()
             ->route('tests.index', ['student' => $student->id])
@@ -86,9 +101,10 @@ class TestController extends Controller
      */
     public function edit(Student $student, Test $test)
     {
-        //student_idとtest_typeに基づいて連番を取得
+        //student_idとtest_typeに基づいて連番を取得（scheduled_dateがNULLのもののみ）
         $tests = Test::where('student_id', $student->id)
              ->where('test_name', $test->test_name)
+             ->whereNull('scheduled_date')
              ->orderBy('id')
              ->get();
 
@@ -125,9 +141,10 @@ class TestController extends Controller
      */
     public function destroy(Student $student, Test $test)
     {
-        //
+        // scheduled_dateがNULLのテストの中で最新のものを取得
         $latestTest = Test::where('student_id', $student->id)
             ->where('test_name', $test->test_name)
+            ->whereNull('scheduled_date')
             ->orderByDesc('id')
             ->first();
         

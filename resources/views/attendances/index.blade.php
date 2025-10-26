@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('出席状況確認') }}：{{ $student->name_kanji }}
+            📅 {{ __('出席状況確認') }}：{{ $student->name_kanji }}
         </h2>
     </x-slot>
 
@@ -12,7 +12,7 @@
             x-init="setTimeout(() => show = false, 3000)"
             class="max-w-7xl mx-auto mt-4"
         >
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                 <strong class="font-bold">成功！</strong>
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
@@ -25,7 +25,8 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
                     <!-- 月選択 + 前半後半切り替え -->
-                    <form method="GET" action="{{ route('attendances.index', ['student' => $student->id]) }}" class="mb-6">
+                    <h3 class="text-lg font-semibold mb-4">📆 月選択</h3>
+                    <form method="GET" action="{{ route('attendances.index', ['student' => $student->id]) }}" class="mb-6 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                         <div class="flex items-center space-x-4">
                             <div>
                                 <x-input-label for="month" :value="__('月選択')" />
@@ -44,6 +45,7 @@
                         </div>
                     </form>
                     <!-- 出席一覧テーブル -->
+                    <h3 class="text-lg font-semibold mb-4 mt-6">📊 出席状況</h3>
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead>
                             <tr>
@@ -71,19 +73,19 @@
                                     $attendance = $attendances->get($current->toDateString());
                                 @endphp
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-900">
                                         {{ $current->format('Y-m-d (D)') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if ($attendance)
-                                            <span class="px-2 py-1 rounded {{ $attendance->status == '出席' ? 'bg-green-200 text-green-800' : ($attendance->status == '遅刻' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800') }}">
-                                                {{ $attendance->status }}
+                                            <span class="px-3 py-1 rounded font-semibold {{ $attendance->status == '出席' ? 'bg-green-200 text-green-800' : ($attendance->status == '遅刻' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800') }}">
+                                                {{ $attendance->status == '出席' ? '✅' : ($attendance->status == '遅刻' ? '⏰' : '❌') }} {{ $attendance->status }}
                                             </span>
                                         @else
-                                            <span class="text-gray-500">未登録</span>
+                                            <span class="text-gray-500 dark:text-gray-400">— 未登録</span>
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-900">
                                         {{ $attendance->note ?? 'ー' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -91,14 +93,14 @@
                                             @if ($attendance)
                                                 <a href="{{ route('attendances.edit', ['student' => $student->id, 'attendance' => $attendance->id]) }}">
                                                     <x-primary-button class="px-6">
-                                                        編集
+                                                        ✏️ 編集
                                                     </x-primary-button>
                                                 </a>
                                             @else
-                                                <div>ー</div>
+                                                <div class="text-gray-900 dark:text-gray-900">ー</div>
                                             @endif
                                         @else
-                                            <span class="text-gray-400"></span>
+                                            <span class="text-gray-400 dark:text-gray-900"></span>
                                         @endif
                                     </td>
                                 </tr>

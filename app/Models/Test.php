@@ -14,6 +14,13 @@ class Test extends Model
         'student_id',
         'test_name',
         'score',
+        'scheduled_date',
+        'is_completed',
+    ];
+
+    protected $casts = [
+        'scheduled_date' => 'date',
+        'is_completed' => 'boolean',
     ];
     
     /**

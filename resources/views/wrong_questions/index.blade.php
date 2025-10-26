@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('英単語登録フォーム') }}：{{ $student->name_kanji }} 
+            📖 {{ __('英単語登録フォーム') }}：{{ $student->name_kanji }} 
         </h2>
     </x-slot>
 
@@ -12,7 +12,7 @@
             x-init="setTimeout(() => show = false, 3000)"
             class="max-w-7xl mx-auto mt-4"
         >
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                 <strong class="font-bold">成功！</strong>
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
@@ -22,7 +22,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+                <div class="p-6 text-gray-900 dark:text-gray-900">
                     <form method="POST" action="{{ route('wrong_questions.store', ['student' => $student->id]) }}" x-data="{ showAll: false }">
                         @csrf
                         <table class="table-auto w-full border border-gray-300">
