@@ -51,8 +51,8 @@
 							<tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700">
 								@foreach ($tasks as $task)
 								<tr>
-									<td class="px-6 py-4 whitespace-no-wrap text-sm">{{ $task['name'] }}</td>
-									<td class="px-6 py-4 whitespace-no-wrap text-sm">{{ $task['deadline'] }}</td>
+									<td class="px-6 py-4 whitespace-no-wrap text-sm dark:text-gray-900">{{ $task['name'] }}</td>
+									<td class="px-6 py-4 whitespace-no-wrap text-sm dark:text-gray-900">{{ $task['deadline'] }}</td>
 									<td class="px-6 py-4 whitespace-no-wrap text-sm">
 										<span class="px-2 py-1 rounded font-semibold {{ $task['status'] == '完了' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800' }}">
 											{{ $task['status'] == '完了' ? '✅' : '⏳' }} {{ $task['status'] }}

@@ -18,7 +18,7 @@
                             登録
                         </button>
                         <label class='mr-3 ml-6'>点数</label>
-                        <input type="number" name="score" required>
+                        <input type="number" name="score" class="dark:text-gray-900" required>
                     </form>
                 </div>
             </div>

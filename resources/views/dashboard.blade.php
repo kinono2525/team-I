@@ -20,7 +20,7 @@
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg font-semibold mb-2">👥 生徒を選択</h3>
+                                <h3 class="text-lg font-semibold mb-2">生徒を選択</h3>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">生徒を検索・選択して管理します</p>
                             </div>
                             <div class="text-4xl">👥</div>
@@ -36,7 +36,7 @@
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg font-semibold mb-2">➕ 生徒登録</h3>
+                                <h3 class="text-lg font-semibold mb-2">生徒登録</h3>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">新しい生徒情報を登録します</p>
                             </div>
                             <div class="text-4xl">➕</div>
@@ -52,7 +52,7 @@
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-lg font-semibold mb-2">ℹ️ システム情報</h3>
+                                <h3 class="text-lg font-semibold mb-2">システム情報</h3>
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">今日：{{ now()->format('Y年m月d日') }}</p>
                                 <p class="text-xs text-gray-400">{{ now()->format('H:i') }}</p>
                             </div>
