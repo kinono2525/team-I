@@ -38,8 +38,10 @@ class AttendanceController extends Controller
         $attendances = $student->attendances()
             ->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()])
             ->get()
-            ->keyBy('date');
-
+            ->keyBy(function ($item) {
+                // $item->date は cast により Carbon になるはずなので toDateString() を使う
+                return optional($item->date)->toDateString();
+            });
         return view('attendances.index', compact('student', 'month', 'half', 'attendances', 'startDate', 'endDate'));
     }
 
